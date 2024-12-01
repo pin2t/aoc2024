@@ -5,12 +5,10 @@ import	"math"
 import	"slices"
 
 func main() {
-	var left, right []int = make([]int, 0), make([]int, 0)
+	var left, right = make([]int, 0), make([]int, 0)
 	for {
 		var l, r int
-		if n, _ := fmt.Scan(&l, &r); n < 2 {
-			break
-		}
+		if n, _ := fmt.Scan(&l, &r); n < 2 { break }
 		left = append(left, l)
 		right = append(right, r)
 	}
