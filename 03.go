@@ -6,12 +6,12 @@ import "regexp"
 import "fmt"
 
 func main() {
-	var reMul = regexp.MustCompile("mul\\(\\d+,\\d+\\)|do\\(\\)|don't\\(\\)")
+	var cmd = regexp.MustCompile("mul\\(\\d+,\\d+\\)|do\\(\\)|don't\\(\\)")
 	var scanner = bufio.NewScanner(os.Stdin)
 	var muls [2]int
 	var do = true
 	for scanner.Scan() {
-		for _, s := range reMul.FindAllString(scanner.Text(), -1) {
+		for _, s := range cmd.FindAllString(scanner.Text(), -1) {
 			if s[0:3] == "mul" {
 				var n1, n2 int
 				fmt.Sscanf(s, "mul(%d,%d)", &n1, &n2)
