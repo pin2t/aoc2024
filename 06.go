@@ -41,8 +41,8 @@ func main() {
 		if p > 0 { guard = pos{p, y} }
 		y++
 	}
-	var _, length = loop(guard, 0)
-	fmt.Print(length)
+	var _, steps = loop(guard, 0)
+	fmt.Print(steps)
 	var nloops int
 	for y, row := range _map {
 		for x, c := range row {
