@@ -10,7 +10,7 @@ type pos struct {x, y int}
 var _map [][]rune
 var directions = []pos{{0, -1}, {1, 0}, {0, 1}, {-1, 0}}         // up, right, down, left (in order of 90 degree turns)
 
-// return true if guard stuck in a loop. Second item in a pair is total steps done
+// return true if guard stuck in a loop. Second item in returned pair is total steps done
 func loop(guard pos, di int) (bool, int) {
 	var visited = make(map[pos]bool, 10000)
 	var onVisited int                                            // number of steps on already visited points
