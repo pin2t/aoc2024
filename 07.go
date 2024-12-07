@@ -14,12 +14,11 @@ func match(numbers []int64, i int, c int64) bool {
 }
 
 func match3(numbers []int64, i int, c int64) bool {
-	var concat = strconv.FormatInt(c, 10) + strconv.FormatInt(numbers[i], 10)
-	var nc, _ = strconv.ParseInt(concat, 10, 64)
+	var concat, _ = strconv.ParseInt(strconv.FormatInt(c, 10) + strconv.FormatInt(numbers[i], 10), 10, 64)
 	if i == len(numbers) - 1 {
-		return numbers[0] == c + numbers[i] || numbers[0] == c * numbers[i] || numbers[0] == nc
+		return numbers[0] == c + numbers[i] || numbers[0] == c * numbers[i] || numbers[0] == concat
 	}
-	return match3(numbers, i + 1, c + numbers[i]) || match3(numbers, i + 1, c * numbers[i]) || match3(numbers, i + 1, nc)
+	return match3(numbers, i + 1, c + numbers[i]) || match3(numbers, i + 1, c * numbers[i]) || match3(numbers, i + 1, concat)
 }
 
 func main() {
