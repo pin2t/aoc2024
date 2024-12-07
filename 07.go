@@ -31,10 +31,10 @@ func main() {
 			n, _ := strconv.ParseInt(s, 10, 64)
 			numbers = append(numbers, n)
 		}
-		if match(numbers, 0, 0) {
+		if match(numbers, 1, 0) {
 			calibrations[0] += numbers[0]
 		}
-		if match3(numbers, 0, 0) {
+		if match3(numbers, 1, 0) {
 			calibrations[1] += numbers[0]
 		}
 	}
