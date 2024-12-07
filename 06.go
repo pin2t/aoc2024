@@ -37,22 +37,19 @@ func main() {
 	var y int
 	for scanner.Scan() {
 		_map = append(_map, []rune(scanner.Text()))
-		var p = strings.IndexRune(scanner.Text(), '^')
-		if p > 0 { guard = pos{p, y} }
+		if p := strings.IndexRune(scanner.Text(), '^'); p > 0 { guard = pos{p, y} }
 		y++
 	}
-	var _, visited = loop(guard, 0)
-	fmt.Print(visited)
+	var _, nvisited = loop(guard, 0)
 	var nloops int
 	for y, row := range _map {
 		for x, c := range row {
 			if c != '^' && c != '#' {
 				_map[y][x] = '#'
-				var isLoop, _ = loop(guard, 0)
-				if isLoop { nloops++ }
+				if isLoop, _ := loop(guard, 0); isLoop { nloops++ }
 				_map[y][x] = '.'
 			}
 		}
 	}
-	fmt.Println("", nloops)
+	fmt.Println(nvisited, nloops)
 }
