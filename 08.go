@@ -20,17 +20,13 @@ func put(p pos) {
 	}
 }
 
-func putInline(a1, a2 pos, distance int) {
-	put(pos{a1.row - distance * (a2.row - a1.row), a1.col - distance * (a2.col - a1.col)})
-	put(pos{a2.row - distance * (a1.row - a2.row), a2.col - distance * (a1.col - a2.col)})
-}
-
 func putAll(distance int) int {
 	var prev = len(antinodes)
 	for _, as := range antennas {
 		for i := 0; i < len(as) - 1; i++ {
 			for j := i + 1; j < len(as); j++ {
-				putInline(as[i], as[j], distance)
+				put(pos{as[i].row - distance * (as[j].row - as[i].row), as[i].col - distance * (as[j].col - as[i].col)})
+				put(pos{as[j].row - distance * (as[i].row - as[j].row), as[j].col - distance * (as[i].col - as[j].col)})
 			}
 		}
 	}
