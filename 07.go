@@ -6,19 +6,24 @@ import "regexp"
 import "strconv"
 import "fmt"
 
-func match(numbers []int64, i int, c int64) bool {
-	if i == len(numbers) - 1 {
-		return numbers[0] == c + numbers[i] || numbers[0] == c * numbers[i]
-	}
-	return match(numbers, i + 1, c + numbers[i]) || match(numbers, i + 1, c * numbers[i])
+type op func (calibration, item int64) int64
+
+var plus op = func (calibration, item int64) int64 { return calibration + item }
+var mul op = func (calibration, item int64) int64 { return calibration * item }
+var concat op = func (calibration, item int64) int64 {
+	var result, _ = strconv.ParseInt(strconv.FormatInt(calibration, 10) + strconv.FormatInt(item, 10), 10, 64)
+	return result
 }
 
-func match3(numbers []int64, i int, c int64) bool {
-	var concat, _ = strconv.ParseInt(strconv.FormatInt(c, 10) + strconv.FormatInt(numbers[i], 10), 10, 64)
-	if i == len(numbers) - 1 {
-		return numbers[0] == c + numbers[i] || numbers[0] == c * numbers[i] || numbers[0] == concat
+func match(ns []int64, i int, c int64, ops []op) bool {
+	if i == len(ns) - 1 {
+		return ns[0] == ops[0](c, ns[i]) ||
+			   ns[0] == ops[1](c, ns[i]) ||
+			   (len(ops) == 3 && ns[0] == ops[2](c, ns[i]))
 	}
-	return match3(numbers, i + 1, c + numbers[i]) || match3(numbers, i + 1, c * numbers[i]) || match3(numbers, i + 1, concat)
+	return match(ns, i + 1, ops[0](c, ns[i]), ops) ||
+		   match(ns, i + 1, ops[1](c, ns[i]), ops) ||
+		   (len(ops) == 3 && match(ns, i + 1, ops[2](c, ns[i]), ops))
 }
 
 func main() {
@@ -31,10 +36,10 @@ func main() {
 			n, _ := strconv.ParseInt(s, 10, 64)
 			numbers = append(numbers, n)
 		}
-		if match(numbers, 1, 0) {
+		if match(numbers, 1, 0, []op{plus, mul}) {
 			calibrations[0] += numbers[0]
 		}
-		if match3(numbers, 1, 0) {
+		if match(numbers, 1, 0, []op{plus, mul, concat}) {
 			calibrations[1] += numbers[0]
 		}
 	}
