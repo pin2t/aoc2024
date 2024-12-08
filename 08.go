@@ -14,15 +14,15 @@ var rows, cols int
 var antennas = make(map[rune][]pos)
 var antinodes = make(map[pos]bool)
 
-func putInbound(p pos) {
+func put(p pos) {
 	if p.row >= 0 && p.row < rows && p.col >= 0 && p.col < cols {
 		antinodes[p] = true
 	}
 }
 
 func putInline(a1, a2 pos, distance int) {
-	putInbound(pos{a1.row - distance * (a2.row - a1.row), a1.col - distance * (a2.col - a1.col)})
-	putInbound(pos{a2.row - distance * (a1.row - a2.row), a2.col - distance * (a1.col - a2.col)})
+	put(pos{a1.row - distance * (a2.row - a1.row), a1.col - distance * (a2.col - a1.col)})
+	put(pos{a2.row - distance * (a1.row - a2.row), a2.col - distance * (a1.col - a2.col)})
 }
 
 func putAll(distance int) int {
