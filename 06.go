@@ -13,21 +13,23 @@ var directions = []pos{{0, -1}, {1, 0}, {0, 1}, {-1, 0}}              // up, rig
 // return true if guard stuck in a loop. Second item in returned pair is number of visited points
 func loop(guard pos, di int) (bool, int) {
 	var visited = make(map[pos]bool, 10000)
-	var nsteps = 1                                                    // number of total steps (including non-unique)
+	type vdt struct {p pos; di int}
+	var visitedDir = make(map[vdt]bool, 10000)
 	visited[guard] = true
+	visitedDir[vdt{guard, di}] = true
 	for {
-		var next = pos{guard.x + directions[di % 4].x, guard.y + directions[di % 4].y}
+		var next = pos{guard.x + directions[di].x, guard.y + directions[di].y}
 		if next.x < 0 || next.y < 0 || next.x >= len(_map[guard.y]) || next.y >= len(_map) {
 			return false, len(visited)
 		}
-		if nsteps - len(visited) > 1000 { return true, len(visited) } // assume a loop when stepping on already visited for some time
+		if visitedDir[vdt{next, di}] { return true, len(visited) }
 		if _map[next.y][next.x] == '#' {
-			di++
+			di = (di + 1) % 4
 		} else {
 			guard = next
-			nsteps++
 		}
 		visited[guard] = true
+		visitedDir[vdt{guard, di}] = true
 	}
 }
 
@@ -41,6 +43,7 @@ func main() {
 		y++
 	}
 	var _, nvisited = loop(guard, 0)
+	fmt.Print(nvisited)
 	var nloops int
 	for y, row := range _map {
 		for x, c := range row {
@@ -51,5 +54,5 @@ func main() {
 			}
 		}
 	}
-	fmt.Println(nvisited, nloops)
+	fmt.Println("", nloops)
 }
