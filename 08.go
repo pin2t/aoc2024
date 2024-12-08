@@ -20,29 +20,33 @@ func putInbound(p pos) {
 	}
 }
 
-func putDistance(d int) int {
+func putInline(a1, a2 pos, distance int) {
+	var dr, dc = abs(a1.row, a2.row), abs(a1.col, a2.col)
+	if a1.row > a2.row {
+		if a1.col > a2.col {
+			putInbound(pos{a2.row - distance * dr, a2.col - distance * dc})
+			putInbound(pos{a1.row + distance * dr, a1.col + distance * dc})
+		}  else {
+			putInbound(pos{a2.row - distance * dr, a2.col + distance * dc})
+			putInbound(pos{a1.row + distance * dr, a1.col - distance * dc})
+		}
+	} else {
+		if a1.col > a2.col {
+			putInbound(pos{a2.row + distance * dr, a2.col - distance * dc})
+			putInbound(pos{a1.row - distance * dr, a1.col + distance * dc})
+		}  else {
+			putInbound(pos{a2.row + distance * dr, a2.col + distance * dc})
+			putInbound(pos{a1.row - distance * dr, a1.col - distance * dc})
+		}
+	}
+}
+
+func putAll(distance int) int {
 	var prev = len(antinodes)
 	for _, as := range antennas {
 		for i := 0; i < len(as) - 1; i++ {
 			for j := i + 1; j < len(as); j++ {
-				var dr, dc = abs(as[i].row, as[j].row), abs(as[i].col, as[j].col)
-				if as[i].row > as[j].row {
-					if as[i].col > as[j].col {
-						putInbound(pos{as[j].row - d * dr, as[j].col - d * dc})
-						putInbound(pos{as[i].row + d * dr, as[i].col + d * dc})
-					}  else {
-						putInbound(pos{as[j].row - d * dr, as[j].col + d * dc})
-						putInbound(pos{as[i].row + d * dr, as[i].col - d * dc})
-					}
-				} else {
-					if as[i].col > as[j].col {
-						putInbound(pos{as[j].row + d * dr, as[j].col - d * dc})
-						putInbound(pos{as[i].row - d * dr, as[i].col + d * dc})
-					}  else {
-						putInbound(pos{as[j].row + d * dr, as[j].col + d * dc})
-						putInbound(pos{as[i].row - d * dr, as[i].col - d * dc})
-					}
-				}
+				putInline(as[i], as[j], distance)
 			}
 		}
 	}
@@ -60,9 +64,9 @@ func main() {
 		}
 		rows++
 	}
-	putDistance(1)
+	putAll(1)
 	fmt.Print(len(antinodes))
 	antinodes = make(map[pos]bool)
-	for n := 0; putDistance(n) > 0; n++ {}
+	for n := 0; putAll(n) > 0; n++ {}
 	fmt.Println("", len(antinodes))
 }
