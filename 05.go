@@ -9,12 +9,11 @@ import "regexp"
 import "strconv"
 
 func main() {
-	var orders [][]int
-	var cmp = func (left, right int) int {
-		for _, order := range orders {
-			if order[0] == right && order[1] == left { return 1 }
-			if order[0] == left && order[1] == right { return -1 }
-		}
+	type key struct {left, right int}
+	var less = make(map[key]int)
+	var compare = func (left, right int) int {
+		if _, found := less[key{left, right}]; found { return -1 }
+		if _, found := less[key{right, left}]; found { return 1 }
 		return 0
 	}
 	var re = regexp.MustCompile("\\d+")
@@ -28,13 +27,13 @@ func main() {
 			numbers = append(numbers, int(n))
 		}
 		if strings.Contains(line, "|") {
-			orders = append(orders, numbers)
+			less[key{numbers[0], numbers[1]}] = -1
 		} else {
 			if len(numbers) == 0 { continue } // skip empty line
-			if slices.IsSortedFunc(numbers, cmp) {
+			if slices.IsSortedFunc(numbers, compare) {
 				sums[0] += numbers[len(numbers) / 2]
 			} else {
-				slices.SortFunc(numbers, cmp)
+				slices.SortFunc(numbers, compare)
 				sums[1] += numbers[len(numbers) / 2]
 			}
 		}
