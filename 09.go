@@ -34,8 +34,8 @@ func main() {
 	for i := 0; i < last; i++ {
 		if disk[i] != EMPTY { continue }
 		disk[i] = disk[last]
-		disk[last] = -1
-		for ;disk[last] == -1; last-- {}
+		disk[last] = EMPTY
+		for ;disk[last] == EMPTY; last-- {}
 	}
 	var sum int64
 	for i, v := range disk {
