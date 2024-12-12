@@ -37,10 +37,14 @@ func region(p pos) (int, int) {
 	var outDirections = make(map[pos][]pos)
 	for row, _ := range _map {
 		for col, _ := range _map[0] {
-			if !reg[pos{row, col}] { continue }
+			if !reg[pos{row, col}] {
+				continue
+			}
 			for _, d := range []pos{{0, 1}, {1, 0}, {0, -1}, {-1, 0}} {
 				var np = pos{row + d.row, col + d.col}
-				if inside(np) && _map[np.row][np.col] == _type { continue }
+				if inside(np) && _map[np.row][np.col] == _type {
+					continue
+				}
 				var ldir, rdir = pos{-d.col, d.row}, pos{d.col, -d.row}
 				var left = pos{row + ldir.row, col + ldir.col}
 				var right = pos{row + rdir.row, col + rdir.col}
@@ -63,13 +67,14 @@ func main() {
 	var p pos
 	for p.row, _ = range _map {
 		for p.col, _ = range _map[p.row] {
-			if !processed[p] {
-				var prev = len(processed)
-				var outsides, sides = region(p)
-				var area = len(processed) - prev
-				sums[0] += int64(area) * int64(outsides)
-				sums[1] += int64(area) * int64(sides)
+			if processed[p] {
+				continue
 			}
+			var prev = len(processed)
+			var perimeter, sides = region(p)
+			var area = len(processed) - prev
+			sums[0] += int64(area) * int64(perimeter)
+			sums[1] += int64(area) * int64(sides)
 		}
 	}
 	fmt.Println(sums)
