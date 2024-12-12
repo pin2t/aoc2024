@@ -8,15 +8,13 @@ public class day06 {
     public static void main(String[] args) {
         var map = new BufferedReader(new InputStreamReader(in)).lines().map(String::toCharArray).toList().toArray(new char[][]{});
         var guard = new Guard(map);
-        var result = guard.walk();
-        out.print(result.visited);
+        out.print(guard.walk().visited);
         var loops = 0;
         for (int row = 0; row < map.length; row++) {
             for (int col = 0; col < map[row].length; col++) {
                 if (map[row][col] == '.') {
                     map[row][col] = '#';
-                    var r = guard.walk();
-                    if (r.isLoop()) {
+                    if (guard.walk().isLoop()) {
                         loops++;
                     }
                     map[row][col] = '.';
