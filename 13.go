@@ -33,18 +33,17 @@ func main() {
 	var scanner = bufio.NewScanner(os.Stdin)
 	var totals [2]int64
 	for scanner.Scan() {
-		var a, b point
-		var p point
+		var a, b, prize point
 		fmt.Sscanf(scanner.Text(), "Button A: X+%d, Y+%d", &a.x, &a.y)
 		scanner.Scan()
 		fmt.Sscanf(scanner.Text(), "Button B: X+%d, Y+%d", &b.x, &b.y)
 		scanner.Scan()
-		fmt.Sscanf(scanner.Text(), "Prize: X=%d, Y=%d", &p.x, &p.y)
+		fmt.Sscanf(scanner.Text(), "Prize: X=%d, Y=%d", &prize.x, &prize.y)
 		scanner.Scan()
-		if win, spent := play(a, b, p); win {
+		if win, spent := play(a, b, prize); win {
 			totals[0] += spent
 		}
-		if win, spent := play2(a, b, point{p.x + 10000000000000, p.y + 10000000000000}); win {
+		if win, spent := play2(a, b, point{prize.x + 10000000000000, prize.y + 10000000000000}); win {
 			totals[1] += spent
 		}
 	}
