@@ -2,7 +2,6 @@ import java.util.*;
 
 import static java.lang.System.in;
 import static java.lang.System.out;
-import static java.util.Collections.singletonList;
 
 public class day08 {
     public static void main(String[] args) {
