@@ -12,10 +12,10 @@ public class day07 {
         var results = new long[]{0, 0};
         new BufferedReader(new InputStreamReader(in)).lines().forEach(line -> {
             var ns = new Scanner(line).findAll(re).mapToLong(m -> Long.parseLong(m.group())).toArray();
-            if (match(ns, 1, 0, List.of(Long::sum, (c, n) -> c * n))) {
+            if (match(ns, 1, 0, List.of((c, n) -> c + n, (c, n) -> c * n))) {
                 results[0] += ns[0];
             }
-            if (match(ns, 1, 0, List.of(Long::sum, (c, n) -> c * n, (c, n) ->
+            if (match(ns, 1, 0, List.of((c, n) -> c + n, (c, n) -> c * n, (c, n) ->
                 Long.parseLong(c.toString() + n.toString())
             ))) {
                 results[1] += ns[0];
