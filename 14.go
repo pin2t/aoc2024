@@ -4,17 +4,16 @@ import "fmt"
 import "time"
 
 func main() {
-	var xsize, ysize = 101, 103
 	type robot struct {x, y, vx, vy int}
+
+	var xsize, ysize = 101, 103
 	var robots []robot
 	for {
 		var r robot
 		if n, _ := fmt.Scanf("p=%d,%d v=%d,%d", &r.x, &r.y, &r.vx, &r.vy); n < 4 { break }
 		robots = append(robots, r)
 	}
-	if len(robots) < 50 {
-		xsize, ysize = 11, 7
-	}
+	if len(robots) < 50 { xsize, ysize = 11, 7 } // example board size
 	for s := 1; ; s++ {
 		for i, _ := range robots {
 			var r = &robots[i]
@@ -37,15 +36,15 @@ func main() {
 		if q1 > len(robots) / 2 || q2 > len(robots) / 2 || q3 > len(robots) / 2 || q4 > len(robots) / 2 {
 			for y := 0; y < ysize; y++ {
 				for x := 0; x < xsize; x++ {
-					var found = false
+					var occupied = false
 					for _, e := range robots {
-						if e.x == x && e.y == y { found = true; break }
+						if e.x == x && e.y == y { occupied = true; break }
 					}
-					if found { fmt.Print("#") } else { fmt.Print(".") }
+					if occupied { fmt.Print("R") } else { fmt.Print(" ") }
 				}
 				fmt.Println()
 			}
-			fmt.Println(s, "second")
+			fmt.Println("second", s)
 			time.Sleep(time.Second)
 		}
 	}
