@@ -24,8 +24,8 @@ public class day08 {
             row[0]++;
         }
         out.printf("%d %d%n",
-            new Antinodes(row[0], cols, antennas).get(1),
-            new Antinodes(row[0], cols, antennas).all()
+            new Antinodes(row[0], cols, antennas).count(1),
+            new Antinodes(row[0], cols, antennas).countAll()
         );
     }
 
@@ -40,7 +40,7 @@ public class day08 {
             this.antennas = antennas;
         }
 
-        int get(int distance) {
+        int count(int distance) {
             var prev = antinodes.size();
             for (var an : antennas.values()) {
                 for (int i = 0; i < an.size() - 1; i++) {
@@ -61,10 +61,10 @@ public class day08 {
             return antinodes.size() - prev;
         }
 
-        int all() {
+        int countAll() {
             var result = 0;
             for (int d = 0; d < rows; d++) {
-                var step = get(d);
+                var step = count(d);
                 if (step == 0) break;
                 result += step;
             }
