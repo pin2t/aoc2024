@@ -52,13 +52,13 @@ func main() {
 				for x := 0; x < xsize; x++ {
 					var found = false
 					for _, e := range easter {
-						if e.x == x && e.y == y { found = true }
+						if e.x == x && e.y == y { found = true; break }
 					}
 					if found { fmt.Print("#") } else { fmt.Print(".") }
 				}
 				fmt.Println()
 			}
-			fmt.Println(s, " second", q1, q2, q3, q4)
+			fmt.Println(s, "second")
 			time.Sleep(time.Second)
 		}
 		s++
