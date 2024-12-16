@@ -2,7 +2,7 @@ package main
 
 import "bufio"
 import "os"
-import"fmt"
+import "fmt"
 import "slices"
 
 type pos struct {row, col int}
