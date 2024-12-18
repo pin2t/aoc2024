@@ -10,7 +10,7 @@ const size = 70
 type pos struct {x, y int}
 type dir struct {dx, dy int}
 
-func path(corrupted map[pos]bool) int {
+func stpes(corrupted map[pos]bool) int {
 	type state struct {p pos; steps int}
 	var queue []state
 	var enqueue = func (p pos, steps int) {
@@ -22,13 +22,17 @@ func path(corrupted map[pos]bool) int {
 		}
 		queue = append(queue, state{p, steps})
 	}
+	var dequeue = func () (p pos, steps int) {
+		p, steps = queue[0].p, queue[0].steps
+		queue = queue[1:]
+		return
+	}
 	enqueue(pos{0, 0}, 0)
 	var end = pos{size, size}
 	var processed = make(map[pos]bool)
 	for len(queue) > 0 {
-		var p, steps = queue[0].p, queue[0].steps
-		queue = queue[1:]
-		if end == p { return steps }
+		var p, steps = dequeue()
+		if p == end { return steps }
 		if processed[p] { continue }
 		processed[p] = true
 		for _, d := range []dir{{1, 0}, {0, 1}, {-1, 0}, {0, -1}} {
@@ -51,10 +55,10 @@ func main() {
 		bytes = append(bytes, pos{x, y})
 	}
 	for i := 0; i < 1024; i++ { corrupted[bytes[i]] = true }
-	fmt.Print(path(corrupted))
+	fmt.Print(stpes(corrupted))
 	for i := 1024; i < len(bytes); i++ {
 		corrupted[bytes[i]] = true
-		if path(corrupted) == -1 {
+		if stpes(corrupted) == -1 {
 			fmt.Println("", strconv.Itoa(bytes[i].x) + "," + strconv.Itoa(bytes[i].y))
 			break
 		}
