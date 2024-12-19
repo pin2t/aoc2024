@@ -7,8 +7,9 @@ import "fmt"
 
 var total = 0
 var cache = make(map[string]int)
+var towels []string
 
-func possible(design string, towels []string) bool {
+func possible(design string) bool {
 	if len(design) == 0 {
 		total++
 		return true
@@ -20,7 +21,7 @@ func possible(design string, towels []string) bool {
 	var result = false
 	for _, t := range towels {
 		var prev = total
-		if len(t) <= len(design) && design[0:len(t)] == t && possible(design[len(t):], towels) {
+		if len(t) <= len(design) && design[0:len(t)] == t && possible(design[len(t):]) {
 			result = true
 			cache[design[len(t):]] = total - prev
 		}
@@ -31,11 +32,11 @@ func possible(design string, towels []string) bool {
 func main() {
 	var scanner = bufio.NewScanner(os.Stdin)
 	scanner.Scan()
-	var towels = strings.Split(scanner.Text(), ", ")
+	towels = strings.Split(scanner.Text(), ", ")
 	var possibles = 0
 	scanner.Scan()
 	for scanner.Scan() {
-		if possible(scanner.Text(), towels) { possibles++ }
+		if possible(scanner.Text()) { possibles++ }
 	}
 	fmt.Println(possibles, total)
 }
