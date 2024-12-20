@@ -28,10 +28,10 @@ public class day15 {
             wideMap[i] = new char[2 * line.length()];
             for (int j = 0; j < line.length(); j++) {
                 switch (line.charAt(j)) {
-                    case '.': wideMap[i][2 * j] = wideMap[i][2 * j + 1] = '.'; break;
-                    case '#': wideMap[i][2 * j] = wideMap[i][2 * j + 1] = '#'; break;
-                    case '@': wideMap[i][2 * j] = '@'; break;
-                    case 'O': wideMap[i][2 * j] = '['; wideMap[i][2 * j + 1] = ']'; break;
+                case '.': wideMap[i][2 * j] = wideMap[i][2 * j + 1] = '.'; break;
+                case '#': wideMap[i][2 * j] = wideMap[i][2 * j + 1] = '#'; break;
+                case '@': wideMap[i][2 * j] = '@'; break;
+                case 'O': wideMap[i][2 * j] = '['; wideMap[i][2 * j + 1] = ']'; break;
                 }
             }
         }
@@ -164,21 +164,21 @@ enum Direction {
 
     static Direction parse(char c) {
         return switch (c) {
-            case '^' -> UP;
-            case '>' -> RIGHT;
-            case 'v' -> DOWN;
-            case '<' -> LEFT;
-            default -> throw new IllegalArgumentException("invalid direction" + c);
+        case '^' -> UP;
+        case '>' -> RIGHT;
+        case 'v' -> DOWN;
+        case '<' -> LEFT;
+        default -> throw new IllegalArgumentException("invalid direction" + c);
         };
     }
 
     @Override
     public String toString() {
         return switch (this) {
-            case UP -> "^";
-            case RIGHT -> ">";
-            case DOWN -> "v";
-            case LEFT -> "<";
+        case UP -> "^";
+        case RIGHT -> ">";
+        case DOWN -> "v";
+        case LEFT -> "<";
         };
     }
 }
