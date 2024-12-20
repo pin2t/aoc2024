@@ -70,11 +70,11 @@ func racePath() []pos {
 		processed[p] = true
 		for _, d := range []dir{{1, 0}, {0, 1}, {-1, 0}, {0, -1}} {
 			var next = pos{p.row + d.dr, p.col + d.dc}
-			if next.row >= 0 && next.row < len(track) && next.col >= 0 && next.col < len(track[next.row]) {
-				if (track[next.row][next.col] != '#') {
-					enqueue(next, ps + 1, path)
-				}
-			}
+			if next.row >= 0 && next.row < len(track) &&
+			   next.col >= 0 && next.col < len(track[next.row]) &&
+    		   track[next.row][next.col] != '#' {
+                enqueue(next, ps + 1, path)
+            }
 		}
 	}
 	return []pos{}
