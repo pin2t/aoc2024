@@ -2,11 +2,8 @@ package main
 
 import "bufio"
 import "os"
-import (
-
-"slices"
-"fmt"
-)
+import "slices"
+import "fmt"
 
 type pos struct {row, col int}
 type dir struct {dr, dc int}
