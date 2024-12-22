@@ -30,7 +30,7 @@ public class day15 {
                 switch (line.charAt(j)) {
                 case '.': wideMap[i][2 * j] = wideMap[i][2 * j + 1] = '.'; break;
                 case '#': wideMap[i][2 * j] = wideMap[i][2 * j + 1] = '#'; break;
-                case '@': wideMap[i][2 * j] = '@'; break;
+                case '@': wideMap[i][2 * j] = '@'; wideMap[i][2 * j + 1] = '.'; break;
                 case 'O': wideMap[i][2 * j] = '['; wideMap[i][2 * j + 1] = ']'; break;
                 }
             }
