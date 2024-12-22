@@ -24,11 +24,11 @@ func main() {
 		}
 		sum += n
 	}
-	var maxbananas = 0
+	var m = 0
 	for _, p := range prices {
-		if p > maxbananas { maxbananas = p }
+		if p > m { m = p }
 	}
-	fmt.Println(sum, maxbananas)
+	fmt.Println(sum, m)
 }
 
 func next(n int64) int64 {
