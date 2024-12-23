@@ -10,7 +10,7 @@ const size = 70
 type pos struct {x, y int}
 type dir struct {dx, dy int}
 
-func stpes(corrupted map[pos]bool) int {
+func steps(corrupted map[pos]bool) int {
 	type state struct {p pos; steps int}
 	var queue []state
 	var enqueue = func (p pos, steps int) {
@@ -55,10 +55,10 @@ func main() {
 		bytes = append(bytes, pos{x, y})
 	}
 	for i := 0; i < 1024; i++ { corrupted[bytes[i]] = true }
-	fmt.Print(stpes(corrupted))
+	fmt.Print(steps(corrupted))
 	for i := 1024; i < len(bytes); i++ {
 		corrupted[bytes[i]] = true
-		if stpes(corrupted) == -1 {
+		if steps(corrupted) == -1 {
 			fmt.Println("", strconv.Itoa(bytes[i].x) + "," + strconv.Itoa(bytes[i].y))
 			break
 		}
