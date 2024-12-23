@@ -24,21 +24,23 @@ func main() {
 	for i := 0; i < len(comps) - 2; i++ {
 		for j := i + 1; j < len(comps) - 1; j++ {
 			for k := j + 1; k < len(comps); k++ {
-				if conns[conn{comps[i], comps[j]}] && conns[conn{comps[j], comps[k]}] && conns[conn{comps[i], comps[k]}] {
-					if comps[i][0] == 't' || comps[j][0] == 't' || comps[k][0] == 't' { tconns++ }
+				var c1, c2, c3 = comps[i], comps[j], comps[k]
+				if conns[conn{c1, c2}] && conns[conn{c2, c3}] && conns[conn{c1, c3}] &&
+					(c1[0] == 't' || c2[0] == 't' || c3[0] == 't') {
+					tconns++
 				}
 			}
 		}
 	}
 	var largest = make(map[string]bool)
 	for _, comp := range comps {
-		var cur = make(map[string]bool)
 		for _, second := range comps {
 			var lan = make(map[string]bool)
 			if second != comp && conns[conn{comp, second}] {
 				lan[comp] = true
 				lan[second] = true
 			}
+			if len(lan) < 2 { continue }
 			for _, next := range comps {
 				if next != comp && conns[conn{comp, next}] && !lan[next] {
 					var all = true
@@ -52,9 +54,8 @@ func main() {
 					if all { lan[next] = true }
 				}
 			}
-			if len(lan) > len(cur) { cur = lan }
+			if len(lan) > len(largest) { largest = lan }
 		}
-		if len(cur) > len(largest) { largest = cur }
 	}
 	var list []string
 	for c, _ := range largest { list = append(list, c) }
