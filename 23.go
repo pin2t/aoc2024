@@ -32,33 +32,35 @@ func main() {
 			}
 		}
 	}
+	fmt.Print(tconns)
+	var foreach = func (comp string, process func (second string)) {
+		for _, second := range comps {
+			if second != comp && conns[conn{comp, second}] {
+				process(second)
+			}
+		}
+	}
 	var largest = make(map[string]bool)
 	for _, comp := range comps {
-		for _, second := range comps {
+		foreach(comp, func (second string) {
 			var lan = make(map[string]bool)
-			if second != comp && conns[conn{comp, second}] {
-				lan[comp] = true
-				lan[second] = true
-			}
-			if len(lan) < 2 { continue }
-			for _, next := range comps {
-				if next != comp && conns[conn{comp, next}] && !lan[next] {
-					var all = true
-					for _, nc := range comps {
-						if nc != next && conns[conn{next, nc}] {
-							 for lc, _ := range lan {
-								 if !conns[conn{next, lc}] { all = false }
-							 }
-						}
-					}
-					if all { lan[next] = true }
-				}
-			}
+			lan[comp] = true
+			lan[second] = true
+			foreach(comp, func (second string) {
+				if lan[second] { return }
+				var all = true
+				foreach(second, func (_ string) {
+					 for lc, _ := range lan {
+						 if !conns[conn{second, lc}] { all = false }
+					 }
+				})
+				if all { lan[second] = true }
+			})
 			if len(lan) > len(largest) { largest = lan }
-		}
+		})
 	}
 	var list []string
 	for c, _ := range largest { list = append(list, c) }
 	slices.Sort(list)
-	fmt.Println(tconns, strings.Join(list, ","))
+	fmt.Println("", strings.Join(list, ","))
 }
