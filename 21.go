@@ -31,8 +31,6 @@ type moveKey struct {start, end pos}
 type cacheKey struct {code string; depth int}
 var movesMap = make(map[moveKey][][]rune)
 var cache = make(map[cacheKey]int)
-var sequence []rune
-var sequences [][]rune
 
 func seqLen(code []rune, indir int, maxindir int) (_len int) {
 	var key = cacheKey{string(code), indir}
@@ -44,11 +42,12 @@ func seqLen(code []rune, indir int, maxindir int) (_len int) {
 		var to = pad[c]
 		if indir > 0 {
 			var found bool
-			if sequences, found = movesMap[moveKey{from, to}]; !found {
+			var key = moveKey{from, to}
+			if sequences, found = movesMap[key]; !found {
 				sequences = make([][]rune, 0)
 				sequence = make([]rune, 0)
 				gen(from, to, pad)
-				movesMap[moveKey{from, to}] = sequences
+				movesMap[key] = sequences
 			}
 		} else {
 			sequences = make([][]rune, 0)
@@ -70,6 +69,9 @@ func seqLen(code []rune, indir int, maxindir int) (_len int) {
 	cache[key] = _len
 	return
 }
+
+var sequence []rune
+var sequences [][]rune
 
 func gen(from pos, to pos, pad map[rune]pos) {
 	var seq = make([]rune, len(sequence))
