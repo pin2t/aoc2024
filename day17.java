@@ -1,11 +1,9 @@
 import java.util.*;
-import java.util.function.*;
 import java.util.regex.*;
 
 import static java.lang.Long.parseLong;
 import static java.lang.System.in;
 import static java.lang.System.out;
-import static java.util.stream.Collectors.toList;
 
 public class day17 {
     static final Pattern NUMBER_PTN = Pattern.compile("\\d+");
