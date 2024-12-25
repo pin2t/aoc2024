@@ -15,23 +15,17 @@ func main() {
 		if lines[0][0] == '#' {
 			var l lock
 			for c := 0; c < 5; c++ {
-				for r := 1; r < len(lines); r++ {
-					if lines[r][c] == '.' {
-						l[c] = r - 1
-						break
-					}
-				}
+				var r = 1
+				for r < len(lines) && lines[r][c] == '#' { r++ }
+				l[c] = r - 1
 			}
 			locks = append(locks, l)
 		} else {
 			var k key
 			for c := 0; c < 5; c++ {
-				for r := len(lines) - 1; r >= 0; r-- {
-					if lines[r][c] == '.' {
-						k[c] = len(lines) - r - 2
-						break
-					}
-				}
+				var r = len(lines) - 1
+				for r >= 0 && lines[r][c] == '#' { r-- }
+				k[c] = len(lines) - r - 2
 			}
 			keys = append(keys, k)
 		}
