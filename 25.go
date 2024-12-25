@@ -49,9 +49,7 @@ func main() {
 	for _, l := range locks {
 		for _, k := range keys {
 			var fit = true
-			for c := 0; c < 5 && fit; c++ {
-				if l[c] + k[c] > 5 { fit = false }
-			}
+			for c := 0; c < 5 && fit; c++ { fit = l[c] + k[c] <= 5 }
 			if fit { combinations[combKey{l, k}] = true }
 		}
 	}
