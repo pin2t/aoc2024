@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.atomic.*;
 
 import static java.lang.Integer.parseInt;
 import static java.lang.Math.abs;
@@ -45,9 +44,9 @@ class Sequence {
     int limit;
     String code;
 
-    record MoveKey(Pos start, Pos end) {}
+    record Move(Pos start, Pos end) {}
     record CacheKey(String code, int indirection) {}
-    Map<MoveKey, List<String>> moves = new HashMap<>();
+    Map<Move, List<String>> moves = new HashMap<>();
     Map<CacheKey, Long> cache = new HashMap<>();
 
     Sequence(String code, int limit) {
@@ -56,42 +55,31 @@ class Sequence {
     }
 
     long length() {
-        return length(code, 0);
+        return length(code, 0, numPad, new Pos(3, 2));
     }
 
-    private long length(String code, int indirection) {
+    private long length(String code, int indirection, Map<Character, Pos> pad, Pos from) {
         var ck = new CacheKey(code, indirection);
         var l = cache.get(ck);
         if (l != null) return l;
-        var from = new Pos(3, 2);
-        var pad = numPad;
-        if (indirection > 0) {
-            from = new Pos(0, 2);
-            pad = dirPad;
-        }
         var len = 0L;
         for (int i = 0; i < code.length(); i++) {
-            var c = code.charAt(i);
-            var to = pad.get(c);
+            var to = pad.get(code.charAt(i));
             List<String> sequences = new ArrayList<>();
             if (indirection > 0) {
-                var sk = new MoveKey(from, to);
+                var sk = new Move(from, to);
                 sequences = moves.get(sk);
                 if (sequences == null) {
                     sequences = new ArrayList<>();
-                    generate(sequences, new AtomicReference<>(""), from, to, pad);
+                    generate(sequences, "", from, to, pad);
                     moves.put(sk, sequences);
                 }
             } else {
-                generate(sequences, new AtomicReference<>(""), from, to, pad);
+                generate(sequences, "", from, to, pad);
             }
             var m = 1000000000000L;
-            if (indirection == limit) {
-                m = sequences.stream().map(String::length).min(Integer::compareTo).orElse(1000000000);
-            } else {
-                for (var s : sequences) {
-                    m = min(m, length(s, indirection + 1));
-                }
+            for (var s : sequences) {
+                m = min(m, indirection == limit ? s.length() : length(s, indirection + 1, dirPad, new Pos(0, 2)));
             }
             len += m;
             from = to;
@@ -100,17 +88,15 @@ class Sequence {
         return len;
     }
 
-    private void generate(List<String> sequences, AtomicReference<String> current, Pos from, Pos to, Map<Character, Pos> pad) {
+    private void generate(List<String> sequences, String current, Pos from, Pos to, Map<Character, Pos> pad) {
         if (from.equals(to)) {
-            sequences.add(current.get() + "A");
+            sequences.add(current + "A");
             return;
         }
         for (var d : Direction.values()) {
             var next = from.move(d);
             if (next.distance(to) < from.distance(to) && pad.containsValue(next)) {
-                current.set(current.get() + d.symbol());
-                generate(sequences, current, next, to, pad);
-                current.set(current.get().substring(0, current.get().length() - 1));
+                generate(sequences, current + d.symbol(), next, to, pad);
             }
         }
     }
