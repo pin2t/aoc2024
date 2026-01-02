@@ -5,13 +5,13 @@ import "os"
 import "fmt"
 import "slices"
 
-type pos struct {row, col int}
+type pos struct{ row, col int }
 
 var processed = make(map[pos]bool)
 var _map [][]rune
 
 func inside(p pos) bool {
-	return p.row >= 0 && p.row < len(_map) && p.col >= 0 && p.col < len(_map[p.row]);
+	return p.row >= 0 && p.row < len(_map) && p.col >= 0 && p.col < len(_map[p.row])
 }
 
 func expand(t rune, p pos, outsides *int, reg map[pos]bool) {
@@ -24,8 +24,8 @@ func expand(t rune, p pos, outsides *int, reg map[pos]bool) {
 	}
 	processed[p] = true
 	reg[p] = true
-	for _, d := range []pos{{0, 1}, {1, 0}, {0, -1}, {-1, 0}} {
-		expand(t, pos{p.row + d.row, p.col + d.col}, outsides, reg);
+	for _, d := range []pos{ {0, 1}, {1, 0}, {0, -1}, {-1, 0} } {
+		expand(t, pos{p.row + d.row, p.col + d.col}, outsides, reg)
 	}
 }
 
