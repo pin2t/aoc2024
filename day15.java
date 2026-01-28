@@ -150,36 +150,35 @@ public class day15 {
                 if (map[r][c] == '@') return new Pos(r, c);
         throw new IllegalStateException("robot not found");
     }
-}
 
-record Pos(int row, int col) {
-    Pos move(Direction d) { return new Pos(row + d.row, col + d.col); }
-}
-
-enum Direction {
-    UP(-1, 0), RIGHT(0, 1), DOWN(1, 0), LEFT(0, -1);
-    final int row, col;
-
-    Direction(int row, int col) { this.row = row; this.col = col; }
-
-    static Direction parse(char c) {
-        return switch (c) {
-        case '^' -> UP;
-        case '>' -> RIGHT;
-        case 'v' -> DOWN;
-        case '<' -> LEFT;
-        default -> throw new IllegalArgumentException("invalid direction" + c);
-        };
+    record Pos(int row, int col) {
+        Pos move(Direction d) { return new Pos(row + d.row, col + d.col); }
     }
 
-    @Override
-    public String toString() {
-        return switch (this) {
-        case UP -> "^";
-        case RIGHT -> ">";
-        case DOWN -> "v";
-        case LEFT -> "<";
-        };
+    enum Direction {
+        UP(-1, 0), RIGHT(0, 1), DOWN(1, 0), LEFT(0, -1);
+        final int row, col;
+
+        Direction(int row, int col) { this.row = row; this.col = col; }
+
+        static Direction parse(char c) {
+            return switch (c) {
+                case '^' -> UP;
+                case '>' -> RIGHT;
+                case 'v' -> DOWN;
+                case '<' -> LEFT;
+                default -> throw new IllegalArgumentException("invalid direction" + c);
+            };
+        }
+
+        @Override
+        public String toString() {
+            return switch (this) {
+                case UP -> "^";
+                case RIGHT -> ">";
+                case DOWN -> "v";
+                case LEFT -> "<";
+            };
+        }
     }
 }
-

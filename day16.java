@@ -44,33 +44,33 @@ public class day16 {
         }
         out.println(minscore + " " + seats.size());
     }
-}
 
-record Pos(int row, int col) {
-    Pos move(Direction d) { return new Pos(row + d.row, col + d.col); }
-}
-
-enum Direction {
-    UP(-1, 0), RIGHT(0, 1), DOWN(1, 0), LEFT(0, -1);
-    final int row, col;
-
-    Direction(int row, int col) { this.row = row; this.col = col; }
-
-    Direction toRight() {
-        return switch (this) {
-            case UP -> RIGHT;
-            case RIGHT -> DOWN;
-            case DOWN -> LEFT;
-            case LEFT -> UP;
-        };
+    record Pos(int row, int col) {
+        Pos move(Direction d) { return new Pos(row + d.row, col + d.col); }
     }
 
-    Direction toLeft() {
-        return switch (this) {
-            case UP -> LEFT;
-            case RIGHT -> UP;
-            case DOWN -> RIGHT;
-            case LEFT -> DOWN;
-        };
+    enum Direction {
+        UP(-1, 0), RIGHT(0, 1), DOWN(1, 0), LEFT(0, -1);
+        final int row, col;
+
+        Direction(int row, int col) { this.row = row; this.col = col; }
+
+        Direction toRight() {
+            return switch (this) {
+                case UP -> RIGHT;
+                case RIGHT -> DOWN;
+                case DOWN -> LEFT;
+                case LEFT -> UP;
+            };
+        }
+
+        Direction toLeft() {
+            return switch (this) {
+                case UP -> LEFT;
+                case RIGHT -> UP;
+                case DOWN -> RIGHT;
+                case LEFT -> DOWN;
+            };
+        }
     }
 }

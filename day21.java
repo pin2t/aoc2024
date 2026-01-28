@@ -100,30 +100,29 @@ class Sequence {
             }
         }
     }
-}
+    enum Direction {
+        UP(-1, 0), RIGHT(0, 1), DOWN(1, 0), LEFT(0, -1);
+        final int dr, dc;
 
-enum Direction {
-    UP(-1, 0), RIGHT(0, 1), DOWN(1, 0), LEFT(0, -1);
-    final int dr, dc;
+        Direction(int dr, int dc) { this.dr = dr; this.dc = dc; }
 
-    Direction(int dr, int dc) { this.dr = dr; this.dc = dc; }
-
-    char symbol() {
-        return switch(this) {
-        case UP -> '^';
-        case RIGHT -> '>';
-        case DOWN -> 'v';
-        case LEFT -> '<';
-        };
-    }
-}
-
-record Pos (int row, int col) {
-    Pos move(Direction dir) {
-        return new Pos(row + dir.dr, col + dir.dc);
+        char symbol() {
+            return switch(this) {
+                case UP -> '^';
+                case RIGHT -> '>';
+                case DOWN -> 'v';
+                case LEFT -> '<';
+            };
+        }
     }
 
-    int distance(Pos to) {
-        return abs(this.row - to.row) + abs(this.col - to.col);
+    record Pos (int row, int col) {
+        Pos move(Direction dir) {
+            return new Pos(row + dir.dr, col + dir.dc);
+        }
+
+        int distance(Pos to) {
+            return abs(this.row - to.row) + abs(this.col - to.col);
+        }
     }
 }

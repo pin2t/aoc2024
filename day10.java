@@ -52,17 +52,17 @@ public class day10 {
             }
         }
     }
-}
 
-enum Direction {
-    UP(-1, 0), RIGHT(0, 1), DOWN(1, 0), LEFT(0, -1);
-    final int dr, dc;
+    enum Direction {
+        UP(-1, 0), RIGHT(0, 1), DOWN(1, 0), LEFT(0, -1);
+        final int dr, dc;
 
-    Direction(int dr, int dc) { this.dr = dr; this.dc = dc; }
-}
+        Direction(int dr, int dc) { this.dr = dr; this.dc = dc; }
+    }
 
-record Pos (int row, int col) {
-    Pos move(Direction dir) {
-        return new Pos(row + dir.dr, col + dir.dc);
+    record Pos (int row, int col) {
+        Pos move(Direction dir) {
+            return new Pos(row + dir.dr, col + dir.dc);
+        }
     }
 }
