@@ -11,3 +11,4 @@ go run 01.go < inputs/01.txt
 ```shell
 java day01.java < inputs/01.txt
 ```
+Java 25+ is required
